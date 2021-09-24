@@ -33,7 +33,7 @@ class reflex {
         this.words = options.words || ["Taradiddle", "Fartlek", "Itadakimasu", "Bibliokept", "Cattywampus", "Schmooze", "Gobbledygook", "Slumgullion", "Flibbertigibbet", "Jackanapes", "Ragamuffin", "Whirligig", "Flibbertigibbet", "Fipple", "Ballyhoo", "Stumblebum", "Gardyloo", "Bumfuzzle", "Collywobbles", "Widdershins", "Abibliophobia", "Bumbershoot", "Pandiculation", "Snollygoster", "Nudiustertian", "Yarborough", "Comeuppance", "Donnybrook", "Brouhaha", "Pettifogger", "poggers", "Mollycoddle", "pogchimp", "Hoosegow", "Shisui", "Hullaballoo", "dattebayou", "Kawaii", "oniisan", "baka", "why??!!.."]
 
         if (typeof (this.endIn) !== "number") throw new Error(`The endIn param should be a number but we got ${JSON.stringify(this.endIn)}`);
-        if (typeof (this.startAfter) !== "number") throw new Error(`The startAfter param should be a number but we got ${JSON.stringify(this.startAfter)}`);
+        if (typeof (this.startAfter) !== "number" && this.startAfter !== "random") throw new Error(`The startAfter param should be a number or "random" but we got ${JSON.stringify(this.startAfter)}`);
         if (!Array.isArray(this.words) || this.words.length < 1) throw new Error("The words param should be an array but I got : " + JSON.stringify(this.words));
 
         Object.keys(this).filter(v => v !== "endIn" && v !== "startAfter" && v !== "words").forEach((v, i) => {
@@ -83,7 +83,7 @@ class reflex {
 
         let randomWord = this.words[Math.floor(Math.random() * this.words.length)];
 
-        return speed.bind(this)(m =>  m.author.id === message.author.id && m.content.toLowerCase() === randomWord.toLowerCase(), message, randomWord);
+        return speed.bind(this)(m => m.author.id === message.author.id && m.content.toLowerCase() === randomWord.toLowerCase(), message, randomWord);
     }
 
     /**
