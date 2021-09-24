@@ -1,7 +1,7 @@
 {
-  "name": "discord-type-speed",
+  "name": "discord-reflex-speed",
   "version": "1.0.0",
-  "description": "An module to see who can type fast for discord bots.",
+  "description": "An module to see your reflex speed",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
   },
   "keywords": [
     "discord",
-    "type",
+    "reflex",
     "typing",
     "speed",
     "game"
