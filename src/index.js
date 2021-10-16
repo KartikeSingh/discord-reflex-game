@@ -32,26 +32,26 @@ class reflex {
         this.endDescription = options.endDescription || "The winner is **{winner}** They took **{time}** to respond";
         this.words = options.words || ["Taradiddle", "Fartlek", "Itadakimasu", "Bibliokept", "Cattywampus", "Schmooze", "Gobbledygook", "Slumgullion", "Flibbertigibbet", "Jackanapes", "Ragamuffin", "Whirligig", "Flibbertigibbet", "Fipple", "Ballyhoo", "Stumblebum", "Gardyloo", "Bumfuzzle", "Collywobbles", "Widdershins", "Abibliophobia", "Bumbershoot", "Pandiculation", "Snollygoster", "Nudiustertian", "Yarborough", "Comeuppance", "Donnybrook", "Brouhaha", "Pettifogger", "poggers", "Mollycoddle", "pogchimp", "Hoosegow", "Shisui", "Hullaballoo", "dattebayou", "Kawaii", "oniisan", "baka", "why??!!.."]
 
-        if (typeof (this.endIn) !== "number") throw new Error(`The endIn param should be a number but we got ${JSON.stringify(this.endIn)}`);
-        if (typeof (this.startAfter) !== "number" && this.startAfter !== "random") throw new Error(`The startAfter param should be a number or "random" but we got ${JSON.stringify(this.startAfter)}`);
+        if (typeof this.endIn !== "number") throw new Error(`The endIn param should be a number but we got ${JSON.stringify(this.endIn)}`);
+        if (typeof this.startAfter !== "number" && this.startAfter !== "random") throw new Error(`The startAfter param should be a number or "random" but we got ${JSON.stringify(this.startAfter)}`);
         if (!Array.isArray(this.words) || this.words.length < 1) throw new Error("The words param should be an array but I got : " + JSON.stringify(this.words));
 
         Object.keys(this).filter(v => v !== "endIn" && v !== "startAfter" && v !== "words").forEach((v, i) => {
-            if (typeof (this[v]) !== "string") throw new Error(`String type was expected for param ${v} but I got : ${JSON.stringify(this[v])}`);
+            if (typeof this[v] !== "string") throw new Error(`String type was expected for param ${v} but I got : ${JSON.stringify(this[v])}`);
         });
 
         this.words.forEach((v, i) => {
-            if (typeof (v) !== "string") throw new Error(`Word should be an Array of string but we got ${JSON.stringify(v)} \nat : options.words[${index}]`)
+            if (typeof v !== "string") throw new Error(`Word should be an Array of string but we got ${JSON.stringify(v)} \nat : options.words[${i}]`)
         });
     }
 
     /**
-     * Add a word to random word list
+     * Adds a word to random word list
      * @param {String} word The word to Add
      * @returns {reflex} The class itself
      */
-    async addWord(word) {
-        if (typeof (word) !== "string") throw new Error("Only string can be added as a word");
+    addWord(word) {
+        if (typeof word !== "string") throw new Error("Only string can be added as a word");
         if (this.words.includes(word)) throw new Error(`${word} already exist in words list`);
 
         this.words.push(word);
@@ -60,11 +60,11 @@ class reflex {
     }
 
     /**
-     * remove a word from the random word list
+     * removes a word from the random word list
      * @param {String} word The word to Add
      * @returns {reflex} The class itself
      */
-    async removeWord(word) {
+    removeWord(word) {
         if (typeof (word) !== "string") throw new Error("Only string can be removed from the word list");
         if (!this.words.includes(word)) throw new Error(`${word} do not exist in words list`);
 
@@ -74,29 +74,29 @@ class reflex {
     }
 
     /**
-     * Start a solo mode for a user
+     * Starts a solo mode for a user
      * @param {Message} message The message in which command was used.
-     * @returns {void | Error}
+     * @returns {Promise<void>}
      */
     async solo(message) {
-        if (!message || typeof (message) !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
+        if (!message || typeof message !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
 
-        let randomWord = this.words[Math.floor(Math.random() * this.words.length)];
+        const randomWord = this.words[Math.floor(Math.random() * this.words.length)];
 
         return speed.bind(this)(m => m.author.id === message.author.id && m.content.toLowerCase() === randomWord.toLowerCase(), message, randomWord);
     }
 
     /**
-     * Start a duo mode for two players
+     * Starts a duo mode for two players
      * @param {Message} message The message in which command was used.
      * @param {User} player2 The econd player
      * @returns {void | Error}
      */
     async duo(message, player2) {
-        if (!message || typeof (message) !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
-        if (!player2 || typeof (player2) !== "object" || !player2.username) throw new Error("Please provided a valid player 2 Object, It should be a user object");
+        if (!message || typeof message !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
+        if (!player2 || typeof player2 !== "object" || !player2.username) throw new Error("Please provided a valid player 2 Object, It should be a user object");
 
-        let randomWord = this.words[Math.floor(Math.random() * this.words.length)];
+        const randomWord = this.words[Math.floor(Math.random() * this.words.length)];
 
         return speed.bind(this)(m => (m.author.id === message.author.id || m.author.id === player2.id) && m.content.toLowerCase() === randomWord.toLowerCase(), message, randomWord);
     }
@@ -107,9 +107,9 @@ class reflex {
      * @returns {void | Error}
      */
     async party(message) {
-        if (!message || typeof (message) !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
+        if (!message || typeof message !== "object" || !message.channel || !message.author) throw new Error("Please provided a valid message Object");
 
-        let randomWord = this.words[Math.floor(Math.random() * this.words.length)];
+        const randomWord = this.words[Math.floor(Math.random() * this.words.length)];
 
         return speed.bind(this)(m => !m.bot && m.content.toLowerCase() === randomWord.toLowerCase(), message, randomWord);
     }
